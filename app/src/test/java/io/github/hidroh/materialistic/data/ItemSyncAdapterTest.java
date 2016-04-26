@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,7 +38,6 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowNetworkInfo;
-import org.robolectric.shadows.ShadowNotification;
 import org.robolectric.shadows.ShadowNotificationManager;
 import org.robolectric.util.ServiceController;
 
@@ -384,10 +384,10 @@ public class ItemSyncAdapterTest {
 
         ShadowNotificationManager notificationManager = shadowOf((NotificationManager) service
                 .getSystemService(Context.NOTIFICATION_SERVICE));
-        ShadowNotification.Progress progress = shadowOf(notificationManager.getNotification(1))
-                .getProgress();
-        assertThat(progress.progress).isEqualTo(3); // self + kid 1 + readability
-        assertThat(progress.max).isEqualTo(4); // self + 2 kids + readability
+        ProgressBar progressBar = shadowOf(notificationManager.getNotification(1))
+                .getProgressBar();
+        assertThat(progressBar.getProgress()).isEqualTo(3); // self + kid 1 + readability
+        assertThat(progressBar.getMax()).isEqualTo(4); // self + 2 kids + readability
 
         verify(kid2Call).enqueue(callbackCapture.capture());
         callbackCapture.getValue().onFailure(null, null);

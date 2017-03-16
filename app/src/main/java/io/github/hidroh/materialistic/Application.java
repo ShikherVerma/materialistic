@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -42,6 +43,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         mRefWatcher = LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
